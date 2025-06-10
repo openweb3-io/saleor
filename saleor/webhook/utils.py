@@ -1,5 +1,6 @@
 from collections import defaultdict
 from collections.abc import Iterable
+import logging
 from typing import TYPE_CHECKING, Optional
 
 from django.conf import settings
@@ -12,6 +13,8 @@ from .models import Webhook, WebhookEvent
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
+
+logger = logging.getLogger(__name__)
 
 
 def get_filter_for_single_webhook_event(
@@ -63,7 +66,7 @@ def get_webhooks_for_event(
     apps_identifier: list[str] | None = None,
 ) -> "QuerySet[Webhook]":
     """Get active webhooks from the database for an event."""
-
+    logger.info(f"event_type: {event_type}")
     if webhooks is None:
         # For this QS replica usage is applied later, as this QS could be also passed
         # as parameter.

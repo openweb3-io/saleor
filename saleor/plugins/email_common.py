@@ -40,7 +40,7 @@ DEFAULT_TEMPLATE_HELP_TEXT = (
 )
 DEFAULT_SUBJECT_HELP_TEXT = "An email subject built with Handlebars template language."
 DEFAULT_EMAIL_VALUE = "DEFAULT"
-DEFAULT_EMAIL_TIMEOUT = 5
+DEFAULT_EMAIL_TIMEOUT = 25
 
 
 @dataclass
@@ -247,20 +247,39 @@ def send_email(
 
 
 def validate_email_config(config: EmailConfig):
-    email_backend = EmailBackend(
-        host=config.host,
-        port=config.port,
-        username=config.username,
-        password=config.password,
-        use_ssl=config.use_ssl,
-        use_tls=config.use_tls,
-        fail_silently=False,
-        timeout=DEFAULT_EMAIL_TIMEOUT,
+    logger.info(
+        "开始验证邮件配置，主机: %s, 端口: %s, 用户名: %s, 密码: %s, 使用SSL: %s, 使用TLS: %s",
+        config.host,
+        config.port,
+        config.username,
+        config.password,
+        config.use_ssl,
+        config.use_tls,
     )
-    with email_backend:
-        # make sure that we have correct config. It will raise error in case when we are
-        # not able to log in to email backend.
-        pass
+    
+    try:
+        email_backend = EmailBackend(
+            host=config.host,
+            port=config.port,
+            username=config.username,
+            password=config.password,
+            use_ssl=config.use_ssl,
+            use_tls=config.use_tls,
+            fail_silently=False,
+            timeout=DEFAULT_EMAIL_TIMEOUT,
+        )
+        with email_backend:
+            # make sure that we have correct config. It will raise error in case when we are
+            # not able to log in to email backend.
+            pass
+        logger.info("邮件配置验证成功")
+    except Exception as e:
+        logger.error(
+            "邮件配置验证失败: %s",
+            str(e),
+            exc_info=True,
+        )
+        raise
 
 
 def validate_default_email_configuration(
@@ -272,6 +291,7 @@ def validate_default_email_configuration(
         return
 
     if configuration["use_tls"] and configuration["use_ssl"]:
+        logger.info(f"configuration: {configuration}")
         error_msg = (
             "Use TLS and Use SSL are mutually exclusive, so only set one of "
             "those settings to True."

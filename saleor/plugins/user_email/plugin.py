@@ -418,6 +418,7 @@ class UserEmailPlugin(BasePlugin):
         """Validate if provided configuration is correct."""
         configuration = plugin_configuration.configuration
         configuration = {item["name"]: item["value"] for item in configuration}
+        logger.info(f"configuration: {configuration}")
 
         cls._add_missing_configuration(configuration)
 
