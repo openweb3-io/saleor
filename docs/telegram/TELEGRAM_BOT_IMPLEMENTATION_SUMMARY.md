@@ -88,8 +88,8 @@ async def validate_telegram_data_async(init_data_raw, bot_token):
     # 1. Create Bot instance
     bot = Bot(token=bot_token)
 
-    # 2. Verify bot token
-    bot_info = await bot.get_me()
+    # 2. Bot token verification removed
+    print("Bot token verification skipped")
 
     # 3. Parse initDataRaw
     parsed_data = parse_qs(init_data_raw)

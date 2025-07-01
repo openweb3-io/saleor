@@ -28,14 +28,8 @@ async def validate_telegram_data_async(init_data_raw, bot_token):
         # Create Bot instance
         bot = Bot(token=bot_token)
 
-        # Validate bot token
-        try:
-            bot_info = await bot.get_me()
-            print(
-                f"Bot validation successful: {bot_info.first_name} (@{bot_info.username})"
-            )
-        except TelegramError as e:
-            raise ValidationError(f"Invalid bot token: {str(e)}")
+        # Bot token validation removed - assuming token is valid
+        print("Bot token validation skipped")
 
         print("=" * 50)
         print("Original init_data_raw:")
@@ -113,11 +107,7 @@ async def validate_telegram_data_async(init_data_raw, bot_token):
             "chat_instance": params.get("chat_instance", None),
             "chat_type": params.get("chat_type", None),
             "signature": params.get("signature", None),
-            "bot_info": {
-                "id": bot_info.id,
-                "first_name": bot_info.first_name,
-                "username": bot_info.username,
-            },
+            "bot_info": None,  # Bot info removed
         }
 
     except ValidationError:
