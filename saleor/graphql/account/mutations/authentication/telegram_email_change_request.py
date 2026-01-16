@@ -108,7 +108,7 @@ class TelegramEmailChangeRequest(BaseMutation):
 
             # Store in Redis with 10-minute expiration
             redis_cache.set(
-                cache_key, cache_data, timeout=600
+                cache_key, cache_data, timeout=60
             )  # 10 minutes = 600 seconds
 
             print(f"✅ Verification code stored in Redis: {cache_key}")
@@ -128,7 +128,7 @@ class TelegramEmailChangeRequest(BaseMutation):
                 "verification_code": verification_code,
                 "created_at": cache_data["created_at"],
             }
-            redis_cache.set(email_mapping_key, email_mapping_data, timeout=600)
+            redis_cache.set(email_mapping_key, email_mapping_data, timeout=60)
 
             print(f"✅ Email mapping stored: {email_mapping_key}")
 

@@ -35,7 +35,7 @@ def test_django_cache_redis_integration():
     }
 
     # Store to cache, set 10 minutes expiration
-    cache.set(test_key, test_data, timeout=600)
+    cache.set(test_key, test_data, timeout=60)
     print(f"✅ Verification code stored to cache: {test_key}")
 
     # Read from cache
@@ -85,7 +85,7 @@ def test_django_cache_redis_integration():
     }
 
     # Store verification data
-    cache.set(verification_key, verification_data, timeout=600)
+    cache.set(verification_key, verification_data, timeout=60)
     print(f"✅ Verification data stored: {verification_key}")
 
     # Retrieve verification data

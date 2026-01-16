@@ -34,7 +34,7 @@ def store_verification_code_in_redis(telegram_id, old_email, new_email, verifica
         'created_at': timezone.now().isoformat(),
         'expires_at': (timezone.now() + timedelta(minutes=10)).isoformat(),
     }
-    redis_cache.set(cache_key, cache_data, timeout=600)
+    redis_cache.set(cache_key, cache_data, timeout=60)
 ```
 
 ### 2. Enhanced Security

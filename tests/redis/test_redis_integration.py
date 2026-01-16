@@ -94,7 +94,7 @@ def test_verification_code_storage():
         }
 
         # Store verification code
-        cache.set(cache_key, cache_data, timeout=600)  # 10 minutes
+        cache.set(cache_key, cache_data, timeout=60)  # 10 minutes
         print(f"✅ Verification code stored: {cache_key}")
         print(f"   Verification code: {verification_code}")
         print(f"   Old email: {old_email}")
